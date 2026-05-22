@@ -19,30 +19,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class WorkoutViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: WorkoutRepository
+    private val repository = WorkoutRepository(AppDatabase.getDatabase(application))
     private val context: Context get() = getApplication()
-
-    init {
-        val database = AppDatabase.getDatabase(application)
-        repository = WorkoutRepository(database)
-
-        // Bind active exercise player guide states to WorkoutTimerService flows
-        viewModelScope.launch {
-            WorkoutTimerService.activeExercise.collect { activeExercise = it }
-        }
-        viewModelScope.launch {
-            WorkoutTimerService.activeWorkoutDay.collect { activeWorkoutDay = it }
-        }
-        viewModelScope.launch {
-            WorkoutTimerService.isTimerRunning.collect { isTimerRunning = it }
-        }
-        viewModelScope.launch {
-            WorkoutTimerService.timerRemainingSeconds.collect { timerRemainingSeconds = it }
-        }
-        viewModelScope.launch {
-            WorkoutTimerService.isGuideActive.collect { isGuideActive = it }
-        }
-    }
 
     // Date navigation
     private val _selectedDate = MutableStateFlow(getTodayDateString())
@@ -94,6 +72,25 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     var isGuideActive by mutableStateOf(false)
     var timerRemainingSeconds by mutableStateOf(0)
     var isTimerRunning by mutableStateOf(false)
+
+    init {
+        // Bind active exercise player guide states to WorkoutTimerService flows
+        viewModelScope.launch {
+            WorkoutTimerService.activeExercise.collect { activeExercise = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.activeWorkoutDay.collect { activeWorkoutDay = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.isTimerRunning.collect { isTimerRunning = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.timerRemainingSeconds.collect { timerRemainingSeconds = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.isGuideActive.collect { isGuideActive = it }
+        }
+    }
 
     // Prepopulate user profile with temp data for first launch experience
     fun completeOnboarding() {

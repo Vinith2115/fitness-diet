@@ -1,6 +1,20 @@
-# 🏃‍♂️ Remix Fitness & Diet Planner
+# 🏃‍♂️ Fitness & Diet Tracker
 
 A premium, modern Android application powered by Google's Gemini AI to deliver highly personalized workout plans and nutrition schedules. Built with Jetpack Compose, Room Database, and Kotlin Coroutines.
+
+---
+
+## 📱 Screenshots
+
+<div align="center">
+  <img src="screenshots/screenshot1.png" width="360" alt="Fitness & Diet Tracker Screen Preview"/>
+</div>
+
+---
+
+## 📦 Pre-compiled APK
+For quick installation and testing, the pre-compiled debug APK is available directly in the root of the repository:
+- **[Fitness-Diet-Tracker.apk](Fitness-Diet-Tracker.apk)**
 
 ---
 
