@@ -2,31 +2,47 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Bold Typography Theme Colors
-val BoldPrimaryBlue = Color(0xFF005AC1)         // Active deep blue primary
-val BoldPrimaryContainer = Color(0xFFD1E4FF)    // Soft tinted blue badge/container background
-val BoldOnPrimaryContainer = Color(0xFF001E2F)  // Ink-black with blue bias
-val BoldBgSoftLight = Color(0xFFFDFBFF)         // Off-white light background
-val BoldTextDark = Color(0xFF191C1E)            // Text body charcoal
-val BoldTextMuted = Color(0xFF41484D)           // Muted slate gray
-val BoldBorderLine = Color(0xFFC1C7CE)          // Border line gray
-val BoldSurfaceGrey = Color(0xFFE3E3E9)         // Secondary surface grey
-val BoldSurfaceBlue = Color(0xFFF0F4F8)         // Left-border accent background
+// Liquid Glass Palette Colors
+val PitchBlack = Color(0xFF000000)
+val DarkGreyBg = Color(0xFF0A0A0A)
+val GlassBg = Color(0x13FFFFFF)          // 7% transparency for frosted look
+val GlassBgSelected = Color(0x2BFFFFFF)  // 17% transparency for selected elements
+val GlassBorder = Color(0x26FFFFFF)      // 15% white border
+val GlassBorderSelected = Color(0x4DFFFFFF) // 30% border
 
-// Premium Gym Colors revised for high contrast bold design
-val ActiveEmerald = Color(0xFF005AC1)           // Remap active state to theme blue or vivid emerald
-val CoolTeal = Color(0xFF005AC1)                // Remap cardio accents
-val IntensityAmber = Color(0xFFF59E0B)          // Keep classic warning/intensity amber
-val SteelSlate = Color(0xFF1B202A)              // Dark Card background
-val CharcoalSlate = Color(0xFF0F141C)           // Dark background general
-val LightSlate = Color(0xFFF1F5F9)              // Light mode cards
-val PureWhite = Color(0xFFFFFFFF)
-val MutedSlate = Color(0xFF41484D)              // Remapped to bold muted grey
+// Neon Glowing Accent Colors
+val NeonGreen = Color(0xFF00E676)
+val NeonCyan = Color(0xFF00E5FF)
+val NeonPink = Color(0xFFE040FB)
+val NeonYellow = Color(0xFFFFD600)
 
-// Core Theme Default mappings
-val PrimaryGreen = Color(0xFF005AC1)            // Match deep theme blue
-val PrimaryLightBg = Color(0xFFFDFBFF)          // Match soft white backdrop
-val PrimaryLightSurface = Color(0xFFFFFFFF)
-val DarkText = Color(0xFF191C1E)
-val SolidBlack = Color(0xFF001E2F)
+// Text Colors
+val TextWhite = Color(0xFFFFFFFF)
+val TextGrayMuted = Color(0xFFA0A0A0)
+val TextGraySub = Color(0xFF707070)
 
+// Backward compatibility colors (mapped to new palette to prevent crashes in unchanged code)
+val BoldPrimaryBlue = NeonCyan
+val BoldPrimaryContainer = GlassBg
+val BoldOnPrimaryContainer = TextWhite
+val BoldBgSoftLight = PitchBlack
+val BoldTextDark = TextWhite
+val BoldTextMuted = TextGrayMuted
+val BoldBorderLine = GlassBorder
+val BoldSurfaceGrey = GlassBg
+val BoldSurfaceBlue = GlassBgSelected
+
+val ActiveEmerald = NeonGreen
+val CoolTeal = NeonCyan
+val IntensityAmber = NeonYellow
+val SteelSlate = DarkGreyBg
+val CharcoalSlate = PitchBlack
+val LightSlate = GlassBg
+val PureWhite = TextWhite
+val MutedSlate = TextGrayMuted
+
+val PrimaryGreen = NeonGreen
+val PrimaryLightBg = PitchBlack
+val PrimaryLightSurface = GlassBg
+val DarkText = TextWhite
+val SolidBlack = PitchBlack

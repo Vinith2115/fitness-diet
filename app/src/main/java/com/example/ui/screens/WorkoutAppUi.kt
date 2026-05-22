@@ -588,6 +588,58 @@ fun WorkoutsTab(viewModel: WorkoutViewModel) {
                 }
             }
 
+            // Streak & Reward Tiers card
+            item {
+                val streak by viewModel.streakDays.collectAsStateWithLifecycle()
+                val tier = when {
+                    streak <= 0 -> "No Tier"
+                    streak in 1..2 -> "Bronze Athlete 🥉"
+                    streak in 3..6 -> "Silver Athlete 🥈"
+                    streak in 7..14 -> "Gold Athlete 🥇"
+                    else -> "Platinum Athlete 🏆"
+                }
+
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(containerColor = GlassBg),
+                    border = BorderStroke(1.dp, GlassBorder),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Box(modifier = Modifier.padding(16.dp)) {
+                        DoodleStar(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .size(50.dp),
+                            color = NeonYellow.copy(alpha = 0.15f)
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Text("🔥", fontSize = 32.sp)
+                            Column {
+                                Text(
+                                    text = "DAILY STREAK",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = NeonYellow,
+                                    letterSpacing = 1.5.sp
+                                )
+                                Text(
+                                    text = "$streak ${if (streak == 1) "Day" else "Days"}",
+                                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "Reward Tier: $tier",
+                                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                                    color = TextGrayMuted
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
             // Active Progress block matching reference HTML layout exactly
             item {
                 val completedCount = workoutLogs.size
@@ -601,11 +653,12 @@ fun WorkoutsTab(viewModel: WorkoutViewModel) {
                 )
 
                 Card(
-                    shape = RoundedCornerShape(32.dp),
+                    shape = RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = GlassBg,
+                        contentColor = Color.White
                     ),
+                    border = BorderStroke(1.dp, GlassBorder),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Box(
@@ -613,6 +666,14 @@ fun WorkoutsTab(viewModel: WorkoutViewModel) {
                             .fillMaxWidth()
                             .padding(24.dp)
                     ) {
+                        // Background decorative doodle dumbbell
+                        DoodleDumbbell(
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .size(64.dp)
+                                .offset(x = 10.dp, y = 10.dp),
+                            color = NeonCyan.copy(alpha = 0.1f)
+                        )
                         // Background decorative blur circle
                         Box(
                             modifier = Modifier
@@ -694,11 +755,11 @@ fun WorkoutsTab(viewModel: WorkoutViewModel) {
                 Card(
                     shape = RoundedCornerShape(32.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onBackground
+                        containerColor = GlassBg,
+                        contentColor = Color.White
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                    border = BorderStroke(1.dp, GlassBorder)
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(
@@ -911,93 +972,105 @@ fun DietTab(viewModel: WorkoutViewModel) {
                 Card(
                     shape = RoundedCornerShape(32.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onBackground
+                        containerColor = GlassBg,
+                        contentColor = Color.White
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                    border = BorderStroke(1.dp, GlassBorder)
                 ) {
-                    Row(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(20.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .padding(20.dp)
                     ) {
-                        Column(modifier = Modifier.weight(1.2f)) {
-                            Text(
-                                text = "CALORIMETER COMPASS",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                letterSpacing = 1.5.sp
-                            )
-                            Text(
-                                text = "Fuel Tracking",
-                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-
-                            Spacer(modifier = Modifier.height(12.dp))
-
-                            NutritionBadge(
-                                label = "Calories Consumed",
-                                current = calConsumed,
-                                target = calTarget,
-                                color = MaterialTheme.colorScheme.primary,
-                                unit = "kcal"
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            NutritionBadge(
-                                label = "Protein Goal Tracker",
-                                current = protConsumed,
-                                target = protTarget,
-                                color = MaterialTheme.colorScheme.secondary,
-                                unit = "g"
-                            )
-                        }
-
-                        // Canvas Circle display representing calories consumption
-                        Box(
+                        // Background decorative apple doodle
+                        DoodleApple(
                             modifier = Modifier
-                                .size(110.dp)
-                                .weight(0.8f),
-                            contentAlignment = Alignment.Center
+                                .align(Alignment.BottomEnd)
+                                .size(64.dp)
+                                .offset(x = 10.dp, y = 10.dp),
+                            color = NeonGreen.copy(alpha = 0.12f)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            val ratio = if (calTarget > 0) calConsumed.toFloat() / calTarget else 0f
-                            val animRatio by animateFloatAsState(targetValue = ratio.coerceAtMost(1f), label = "cal_progress")
-
-                            val outlineColor = MaterialTheme.colorScheme.outlineVariant
-                            val activeArcColor = MaterialTheme.colorScheme.primary
-
-                            Canvas(modifier = Modifier.size(90.dp)) {
-                                drawArc(
-                                    color = outlineColor,
-                                    startAngle = -90f,
-                                    sweepAngle = 360f,
-                                    useCenter = false,
-                                    style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
+                            Column(modifier = Modifier.weight(1.2f)) {
+                                Text(
+                                    text = "CALORIMETER COMPASS",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = NeonGreen,
+                                    letterSpacing = 1.5.sp
                                 )
-                                drawArc(
-                                    color = activeArcColor,
-                                    startAngle = -90f,
-                                    sweepAngle = animRatio * 360f,
-                                    useCenter = false,
-                                    style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
+                                Text(
+                                    text = "Fuel Tracking",
+                                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
+                                    color = Color.White
+                                )
+
+                                Spacer(modifier = Modifier.height(12.dp))
+
+                                NutritionBadge(
+                                    label = "Calories Consumed",
+                                    current = calConsumed,
+                                    target = calTarget,
+                                    color = NeonGreen,
+                                    unit = "kcal"
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                NutritionBadge(
+                                    label = "Protein Goal Tracker",
+                                    current = protConsumed,
+                                    target = protTarget,
+                                    color = NeonCyan,
+                                    unit = "g"
                                 )
                             }
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "${(ratio * 100).toInt()}%",
-                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                                Text(
-                                    text = "${calTarget - calConsumed}\nleft",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.Center,
-                                    lineHeight = 12.sp
-                                )
+
+                            // Canvas Circle display representing calories consumption
+                            Box(
+                                modifier = Modifier
+                                    .size(110.dp)
+                                    .weight(0.8f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                val ratio = if (calTarget > 0) calConsumed.toFloat() / calTarget else 0f
+                                val animRatio by animateFloatAsState(targetValue = ratio.coerceAtMost(1f), label = "cal_progress")
+
+                                val outlineColor = GlassBorder
+                                val activeArcColor = NeonGreen
+
+                                Canvas(modifier = Modifier.size(90.dp)) {
+                                    drawArc(
+                                        color = outlineColor,
+                                        startAngle = -90f,
+                                        sweepAngle = 360f,
+                                        useCenter = false,
+                                        style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
+                                    )
+                                    drawArc(
+                                        color = activeArcColor,
+                                        startAngle = -90f,
+                                        sweepAngle = animRatio * 360f,
+                                        useCenter = false,
+                                        style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
+                                    )
+                                }
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(
+                                        text = "${(ratio * 100).toInt()}%",
+                                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
+                                        color = Color.White
+                                    )
+                                    Text(
+                                        text = "${calTarget - calConsumed}\nleft",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = TextGrayMuted,
+                                        textAlign = TextAlign.Center,
+                                        lineHeight = 12.sp
+                                    )
+                                }
                             }
                         }
                     }
@@ -1261,22 +1334,22 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
             Card(
                 shape = RoundedCornerShape(32.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onBackground
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
                 modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                border = BorderStroke(1.dp, GlassBorder)
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "Weight Log Progress Trendline",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.White
                     )
                     Text(
                         text = "Real-time records mapped in kilograms",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = TextGrayMuted
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -1291,7 +1364,7 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
                             Text(
                                 text = "📊 No Weight Logs Recorded Yet.\nTap the scale icon above to register today's weight!",
                                 textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                color = TextGrayMuted.copy(alpha = 0.7f),
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
@@ -1308,11 +1381,11 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
             Card(
                 shape = RoundedCornerShape(32.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onBackground
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
                 modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                border = BorderStroke(1.dp, GlassBorder)
             ) {
                 Row(
                     modifier = Modifier
@@ -1325,12 +1398,12 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
                         Text(
                             text = "Daily Hydration Target",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = Color.White
                         )
                         Text(
                             text = "Target: 8 cups (250ml each)",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = TextGrayMuted
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1381,25 +1454,24 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
                 }
             }
         }
-
-        // Training Plan specifications
         item {
             Card(
                 shape = RoundedCornerShape(32.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
                 modifier = Modifier.fillMaxWidth(),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                border = BorderStroke(1.dp, GlassBorder)
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "Assigned Plan Constants",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = Color.White
                     )
                     Spacer(modifier = Modifier.height(12.dp))
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -1408,34 +1480,36 @@ fun ProgressTab(viewModel: WorkoutViewModel) {
                             Text(
                                 text = "Level Modifier", 
                                 style = MaterialTheme.typography.labelSmall, 
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                                color = TextGrayMuted
                             )
                             Text(
                                 text = profile?.experienceLevel ?: "Beginner", 
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = Color.White
                             )
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = "Intensity Multiplier", 
                                 style = MaterialTheme.typography.labelSmall, 
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                                color = TextGrayMuted
                             )
                             Text(
                                 text = "${profile?.intensityMultiplier ?: 1.0f}x", 
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Black), 
-                                color = MaterialTheme.colorScheme.primary
+                                color = NeonCyan
                             )
                         }
                         Column(horizontalAlignment = Alignment.End) {
                             Text(
                                 text = "Target Active Min", 
                                 style = MaterialTheme.typography.labelSmall, 
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                                color = TextGrayMuted
                             )
                             Text(
                                 text = "${profile?.targetWorkoutMinutes ?: 30} mins", 
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = Color.White
                             )
                         }
                     }
@@ -1466,10 +1540,10 @@ fun StatCard(modifier: Modifier = Modifier, title: String, value: String, subVal
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onBackground
+            containerColor = GlassBg,
+            contentColor = Color.White
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        border = BorderStroke(1.dp, GlassBorder)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Icon(
@@ -1485,18 +1559,18 @@ fun StatCard(modifier: Modifier = Modifier, title: String, value: String, subVal
             Text(
                 text = title, 
                 style = MaterialTheme.typography.bodySmall, 
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = TextGrayMuted,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = value, 
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
-                color = MaterialTheme.colorScheme.onBackground
+                color = Color.White
             )
             Text(
                 text = subValue, 
                 style = MaterialTheme.typography.labelSmall, 
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                color = TextGrayMuted.copy(alpha = 0.7f)
             )
         }
     }
@@ -1648,6 +1722,13 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
         }
     }
 
+    var name by remember(profile) { mutableStateOf(profile?.name ?: "") }
+    var gender by remember(profile) { mutableStateOf(profile?.gender ?: "Other") }
+    var fitnessGoal by remember(profile) { mutableStateOf(profile?.fitnessGoal ?: "Stay Fit") }
+    var heightCmStr by remember(profile) { mutableStateOf(profile?.heightCm?.toString() ?: "") }
+    var currentWeightKgStr by remember(profile) { mutableStateOf(profile?.currentWeightKg?.toString() ?: "") }
+    var targetWeightKgStr by remember(profile) { mutableStateOf(profile?.targetWeightKg?.toString() ?: "") }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -1657,15 +1738,15 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
         item {
             Column {
                 Text(
-                    text = "NOTIFICATION CENTRE", 
+                    text = "SETTINGS & PROFILE", 
                     style = MaterialTheme.typography.labelSmall, 
-                    color = MaterialTheme.colorScheme.primary, 
+                    color = NeonCyan, 
                     letterSpacing = 1.5.sp
                 )
                 Text(
-                    text = "Alarms & Goals", 
+                    text = "Control Center", 
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = Color.White
                 )
             }
         }
@@ -1676,21 +1757,21 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                 shape = RoundedCornerShape(32.dp),
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onBackground
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                border = BorderStroke(1.dp, GlassBorder)
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "Fitness Reminders Scheduler",
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.White
                     )
                     Text(
                         text = "Triggers local notifications to keep your consistency alive.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = TextGrayMuted
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -1704,19 +1785,19 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                             Icon(
                                 imageVector = Icons.Default.Alarm, 
                                 contentDescription = null, 
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = NeonCyan
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Column {
                                 Text(
                                     text = "Wakeup Trigger", 
                                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), 
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = Color.White
                                 )
                                 Text(
                                     text = "Current: ${profile?.selectedReminderTime ?: "08:00"}", 
                                     style = MaterialTheme.typography.bodySmall, 
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = TextGrayMuted
                                 )
                             }
                         }
@@ -1730,19 +1811,19 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                                 }
                                 showTimerDlg = true
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                            colors = ButtonDefaults.buttonColors(containerColor = GlassBgSelected),
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Edit, 
                                 contentDescription = "Edit Clock", 
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer, 
+                                tint = Color.White, 
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
                                 text = "Set Time", 
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                color = Color.White,
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
@@ -1759,30 +1840,12 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    // Test Immediate Alarm Option
-                    Button(
-                        onClick = {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                            }
-                            viewModel.testInstantNotification()
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .testTag("test_notify_btn"),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text(
-                            text = "Trigger Instant Test Notification 🔔", 
-                            color = MaterialTheme.colorScheme.onPrimary, 
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Note: Alarms will trigger twice a day: once at your selected morning time, and again in the evening (exactly 12 hours later).",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = NeonCyan.copy(alpha = 0.8f)
+                    )
                 }
             }
         }
@@ -1793,21 +1856,21 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                 shape = RoundedCornerShape(32.dp),
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onBackground
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                border = BorderStroke(1.dp, GlassBorder)
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = "Adjust Workout Intensity", 
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.White
                     )
                     Text(
-                        text = "Select different experience rules to dynamically scale energy stats.", 
+                        text = "Select different experience levels to dynamically scale workout times and targets.", 
                         style = MaterialTheme.typography.bodySmall, 
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = TextGrayMuted
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -1820,10 +1883,10 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                                 .fillMaxWidth()
                                 .padding(vertical = 4.dp)
                                 .clip(RoundedCornerShape(16.dp))
-                                .background(if (active) MaterialTheme.colorScheme.primaryContainer else Color.Transparent)
+                                .background(if (active) GlassBgSelected else Color.Transparent)
                                 .border(
                                     1.dp,
-                                    if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
+                                    if (active) NeonGreen else GlassBorder,
                                     RoundedCornerShape(16.dp)
                                 )
                                 .clickable {
@@ -1837,13 +1900,13 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
                                 text = lv, 
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold, 
-                                color = if (active) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onBackground
+                                color = Color.White
                             )
                             if (active) {
                                 Icon(
                                     imageVector = Icons.Default.Check, 
                                     contentDescription = "Active", 
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = NeonGreen
                                 )
                             }
                         }
@@ -1852,53 +1915,263 @@ fun SettingsTab(viewModel: WorkoutViewModel) {
             }
         }
 
-        // Profile details Card
+        // Profile Editor & BMI card
         item {
             Card(
                 shape = RoundedCornerShape(32.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onBackground
+                    containerColor = GlassBg,
+                    contentColor = Color.White
                 ),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                border = BorderStroke(1.dp, GlassBorder),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(modifier = Modifier.padding(20.dp)) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     Text(
-                        text = "Account Credentials", 
+                        text = "Edit User Profile", 
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.White
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
 
-                    CredentialLine("Name", profile?.name ?: "")
-                    CredentialLine("Biological Focus", profile?.gender ?: "")
-                    CredentialLine("Primary Fitness Goal", profile?.fitnessGoal ?: "")
-                    CredentialLine("Height Focus", "${profile?.heightCm ?: 0f} cm")
-                    CredentialLine("Weight Base", "${profile?.currentWeightKg ?: 0f} kg")
-                    CredentialLine("Target Weight Tracker", "${profile?.targetWeightKg ?: 0f} kg")
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text("Name", color = TextGrayMuted) },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = NeonCyan,
+                            unfocusedBorderColor = GlassBorder,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Column {
+                        Text(
+                            text = "Gender",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                            color = Color.White,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            val genders = listOf("Female", "Male", "Other")
+                            genders.forEach { gen ->
+                                val isSelected = gender == gen
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(44.dp)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(if (isSelected) NeonCyan.copy(alpha = 0.15f) else GlassBg)
+                                        .border(
+                                            width = 1.dp,
+                                            color = if (isSelected) NeonCyan else GlassBorder,
+                                            shape = RoundedCornerShape(12.dp)
+                                        )
+                                        .clickable { gender = gen },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = gen,
+                                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = if (isSelected) NeonCyan else Color.White
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        Text(
+                            text = "Fitness Goal",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                            color = Color.White,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            val goals = listOf("Lose Weight", "Build Muscle", "Build Endurance", "Stay Fit")
+                            goals.chunked(2).forEach { rowGoals ->
+                                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                    rowGoals.forEach { goal ->
+                                        val isSelected = fitnessGoal == goal
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .height(44.dp)
+                                                .clip(RoundedCornerShape(12.dp))
+                                                .background(if (isSelected) NeonPink.copy(alpha = 0.15f) else GlassBg)
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = if (isSelected) NeonPink else GlassBorder,
+                                                    shape = RoundedCornerShape(12.dp)
+                                                )
+                                                .clickable { fitnessGoal = goal },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = goal,
+                                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                                color = if (isSelected) NeonPink else Color.White
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedTextField(
+                            value = heightCmStr,
+                            onValueChange = { heightCmStr = it },
+                            label = { Text("Height (cm)", color = TextGrayMuted, style = MaterialTheme.typography.labelSmall) },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = NeonCyan,
+                                unfocusedBorderColor = GlassBorder,
+                                focusedTextColor = Color.White,
+                                unfocusedTextColor = Color.White
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
+                        OutlinedTextField(
+                            value = currentWeightKgStr,
+                            onValueChange = { currentWeightKgStr = it },
+                            label = { Text("Weight (kg)", color = TextGrayMuted, style = MaterialTheme.typography.labelSmall) },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = NeonCyan,
+                                unfocusedBorderColor = GlassBorder,
+                                focusedTextColor = Color.White,
+                                unfocusedTextColor = Color.White
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
+                        OutlinedTextField(
+                            value = targetWeightKgStr,
+                            onValueChange = { targetWeightKgStr = it },
+                            label = { Text("Target (kg)", color = TextGrayMuted, style = MaterialTheme.typography.labelSmall) },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = NeonCyan,
+                                unfocusedBorderColor = GlassBorder,
+                                focusedTextColor = Color.White,
+                                unfocusedTextColor = Color.White
+                            ),
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                    val h = heightCmStr.toFloatOrNull() ?: 0f
+                    val w = currentWeightKgStr.toFloatOrNull() ?: 0f
+                    val bmi = if (h > 0f) w / ((h / 100f) * (h / 100f)) else 0f
+
+                    if (bmi > 0f) {
+                        val bmiFormatted = String.format(Locale.US, "%.1f", bmi)
+                        val (classification, color, advice) = when {
+                            bmi < 18.5 -> Triple(
+                                "Underweight", 
+                                NeonYellow, 
+                                "Focus on lean mass. Prioritize high-protein South Indian meals like Egg Dosa, Scrambled Eggs with Puttu, or Thalassery Egg Biryani. Balance with light jogging."
+                            )
+                            bmi < 25.0 -> Triple(
+                                "Normal Weight", 
+                                NeonGreen, 
+                                "Great job! Maintain your health by incorporating egg-based South Indian meals, regular running or jogging, and active gym/home workout days."
+                            )
+                            bmi < 30.0 -> Triple(
+                                "Overweight", 
+                                NeonPink, 
+                                "Focus on metabolic health. Engage in routine outdoor jogging/running. Opt for egg-priority meals like Egg Podimas/Thokku with wheat dosa."
+                            )
+                            else -> Triple(
+                                "Obese", 
+                                Color.Red, 
+                                "Prioritize steady calorie deficit and cardio. Start with daily jogging/running. Supplement with boiled eggs and fiber-rich South Indian food."
+                            )
+                        }
+
+                        Card(
+                            shape = RoundedCornerShape(20.dp),
+                            colors = CardDefaults.cardColors(containerColor = GlassBgSelected),
+                            border = BorderStroke(1.dp, GlassBorderSelected),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Dynamic BMI Indicator",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = TextGrayMuted
+                                    )
+                                    Text(
+                                        text = classification,
+                                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Black),
+                                        color = color
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = bmiFormatted,
+                                        style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Black),
+                                        color = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    Text(
+                                        text = advice,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = TextGrayMuted,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            val parsedH = heightCmStr.toFloatOrNull() ?: profile?.heightCm ?: 170f
+                            val parsedW = currentWeightKgStr.toFloatOrNull() ?: profile?.currentWeightKg ?: 70f
+                            val parsedT = targetWeightKgStr.toFloatOrNull() ?: profile?.targetWeightKg ?: 68f
+                            
+                            viewModel.updateProfileData(
+                                name = name,
+                                gender = gender,
+                                heightCm = parsedH,
+                                currentWeightKg = parsedW,
+                                targetWeightKg = parsedT,
+                                fitnessGoal = fitnessGoal
+                            )
+                            Toast.makeText(context, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = NeonCyan),
+                        shape = RoundedCornerShape(16.dp),
+                        modifier = Modifier.fillMaxWidth().height(48.dp)
+                    ) {
+                        Text(
+                            text = "Save Profile Details",
+                            color = PitchBlack,
+                            fontWeight = FontWeight.Black,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
-            }
-        }
-
-        // Wipe Database Button
-        item {
-            OutlinedButton(
-                onClick = { viewModel.resetProfileToOnboarding() },
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.error),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .testTag("reset_data_btn"),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Reset All Account Data & Onboard Again",
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
-                )
             }
         }
 

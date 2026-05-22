@@ -2,6 +2,8 @@ package com.example.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,9 +11,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.*
 import com.example.receiver.ReminderScheduler
+import com.example.receiver.WorkoutTimerService
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -24,6 +25,23 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     init {
         val database = AppDatabase.getDatabase(application)
         repository = WorkoutRepository(database)
+
+        // Bind active exercise player guide states to WorkoutTimerService flows
+        viewModelScope.launch {
+            WorkoutTimerService.activeExercise.collect { activeExercise = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.activeWorkoutDay.collect { activeWorkoutDay = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.isTimerRunning.collect { isTimerRunning = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.timerRemainingSeconds.collect { timerRemainingSeconds = it }
+        }
+        viewModelScope.launch {
+            WorkoutTimerService.isGuideActive.collect { isGuideActive = it }
+        }
     }
 
     // Date navigation
@@ -55,6 +73,11 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     val allWorkoutLogs: StateFlow<List<WorkoutLog>> = repository.allWorkoutLogs
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    // Streak tracker calculation
+    val streakDays: StateFlow<Int> = allWorkoutLogs
+        .map { logs -> calculateStreak(logs) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+
     // Onboarding Form States
     var onboardName by mutableStateOf("")
     var onboardGender by mutableStateOf("Female")
@@ -71,7 +94,6 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     var isGuideActive by mutableStateOf(false)
     var timerRemainingSeconds by mutableStateOf(0)
     var isTimerRunning by mutableStateOf(false)
-    private var timerJob: Job? = null
 
     // Prepopulate user profile with temp data for first launch experience
     fun completeOnboarding() {
@@ -162,6 +184,48 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    // Edit profile data (settings screen update)
+    fun updateProfileData(
+        name: String,
+        gender: String,
+        heightCm: Float,
+        currentWeightKg: Float,
+        targetWeightKg: Float,
+        fitnessGoal: String
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val profile = repository.getUserProfileSync()
+            if (profile != null) {
+                val calTarget = when (fitnessGoal) {
+                    "Lose Weight" -> 1800
+                    "Build Muscle" -> 2700
+                    "Build Endurance" -> 2400
+                    else -> 2000
+                }
+                val protTarget = when (fitnessGoal) {
+                    "Lose Weight" -> 130
+                    "Build Muscle" -> 160
+                    "Build Endurance" -> 120
+                    else -> 110
+                }
+                val updatedProfile = profile.copy(
+                    name = name,
+                    gender = gender,
+                    heightCm = heightCm,
+                    currentWeightKg = currentWeightKg,
+                    targetWeightKg = targetWeightKg,
+                    fitnessGoal = fitnessGoal,
+                    dailyCalorieTarget = calTarget,
+                    dailyProteinTarget = protTarget
+                )
+                repository.updateProfile(updatedProfile)
+
+                // Log weight in logs
+                repository.insertWeightLog(WeightLog(date = getTodayDateString(), weightKg = currentWeightKg))
+            }
+        }
+    }
+
     // Change selected date
     fun changeSelectedDate(offsetDays: Int) {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -233,54 +297,44 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    // Workout Guide Timer Player logic
+    // Foreground service timer control delegators
     fun startExerciseSession(exercise: Exercise, workoutDay: WorkoutDay) {
-        timerJob?.cancel()
-        activeExercise = exercise
-        activeWorkoutDay = workoutDay
-        timerRemainingSeconds = exercise.durationSeconds
-        isTimerRunning = true
-        isGuideActive = true
+        val intent = Intent(context, WorkoutTimerService::class.java).apply {
+            action = WorkoutTimerService.ACTION_START
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_ID, exercise.id)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_NAME, exercise.name)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_DESC, exercise.description)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_REPS, exercise.defaultRepsOrTime)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_DURATION, exercise.durationSeconds)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_CALORIES, exercise.baseCalories)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_MUSCLE, exercise.muscleGroup)
+            putExtra(WorkoutTimerService.EXTRA_EXERCISE_TIPS, exercise.tips)
 
-        timerJob = viewModelScope.launch {
-            while (timerRemainingSeconds > 0 && isTimerRunning) {
-                delay(1000)
-                timerRemainingSeconds--
-            }
-            if (timerRemainingSeconds == 0) {
-                isTimerRunning = false
-                // Auto complete and log
-                logExerciseCompleted(exercise, workoutDay)
-            }
+            putExtra(WorkoutTimerService.EXTRA_DAY_ID, workoutDay.id)
+            putExtra(WorkoutTimerService.EXTRA_DAY_NUM, workoutDay.dayNumber)
+            putExtra(WorkoutTimerService.EXTRA_DAY_NAME, workoutDay.name)
+            putExtra(WorkoutTimerService.EXTRA_DAY_TYPE, workoutDay.type)
+            putExtra(WorkoutTimerService.EXTRA_DAY_DESC, workoutDay.description)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
         }
     }
 
     fun toggleTimer() {
-        if (isTimerRunning) {
-            isTimerRunning = false
-            timerJob?.cancel()
-        } else {
-            isTimerRunning = true
-            val exercise = activeExercise ?: return
-            val workoutDay = activeWorkoutDay ?: return
-            timerJob = viewModelScope.launch {
-                while (timerRemainingSeconds > 0 && isTimerRunning) {
-                    delay(1000)
-                    timerRemainingSeconds--
-                }
-                if (timerRemainingSeconds == 0) {
-                    isTimerRunning = false
-                    logExerciseCompleted(exercise, workoutDay)
-                }
-            }
+        val intent = Intent(context, WorkoutTimerService::class.java).apply {
+            action = WorkoutTimerService.ACTION_TOGGLE
         }
+        context.startService(intent)
     }
 
     fun stopExerciseSession() {
-        isTimerRunning = false
-        timerJob?.cancel()
-        isGuideActive = false
-        activeExercise = null
+        val intent = Intent(context, WorkoutTimerService::class.java).apply {
+            action = WorkoutTimerService.ACTION_STOP
+        }
+        context.startService(intent)
     }
 
     // Reminders settings
@@ -351,5 +405,59 @@ class WorkoutViewModel(application: Application) : AndroidViewModel(application)
     private fun getTodayDateString(): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return formatter.format(Date())
+    }
+
+    // Helper to calculate consecutive active workout days streak
+    private fun calculateStreak(logs: List<WorkoutLog>): Int {
+        if (logs.isEmpty()) return 0
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val uniqueDates = logs.mapNotNull {
+            try {
+                dateFormat.parse(it.date)
+            } catch (e: Exception) {
+                null
+            }
+        }.map {
+            val cal = Calendar.getInstance()
+            cal.time = it
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
+            cal.timeInMillis
+        }.toSet()
+
+        if (uniqueDates.isEmpty()) return 0
+
+        val todayCal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val todayMs = todayCal.timeInMillis
+
+        val yesterdayCal = Calendar.getInstance().apply {
+            timeInMillis = todayMs
+            add(Calendar.DATE, -1)
+        }
+        val yesterdayMs = yesterdayCal.timeInMillis
+
+        var currentCheckMs = when {
+            uniqueDates.contains(todayMs) -> todayMs
+            uniqueDates.contains(yesterdayMs) -> yesterdayMs
+            else -> return 0
+        }
+
+        var streak = 0
+        val checkCal = Calendar.getInstance()
+        while (uniqueDates.contains(currentCheckMs)) {
+            streak++
+            checkCal.timeInMillis = currentCheckMs
+            checkCal.add(Calendar.DATE, -1)
+            currentCheckMs = checkCal.timeInMillis
+        }
+        return streak
     }
 }

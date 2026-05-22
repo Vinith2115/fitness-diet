@@ -34,307 +34,304 @@ object StaticWorkoutData {
         WorkoutDay(
             id = "day_1",
             dayNumber = 1,
-            name = "Day 1: Core Strength",
+            name = "Day 1: Core & Upper Body (Home / Gym)",
             type = "Core",
-            description = "Focus on building solid abdominals, hip flexors, and a resilient spine with focused movements.",
+            description = "Reinforce chest, shoulders, and midsection stability with bodyweight pushups or dumbbells and solid plank holds.",
             exercises = listOf(
                 Exercise(
                     id = "pushups",
-                    name = "Pushups",
-                    description = "A classic bodyweight exercise that builds chest, shoulder, and core stability.",
+                    name = "Pushups / DB Bench Press",
+                    description = "Build pectoral and core strength. Use dumbbells at the gym or bodyweight at home.",
                     defaultRepsOrTime = "15 reps",
                     durationSeconds = 40,
                     baseCalories = 15,
                     instructions = listOf(
-                        "Start in a plank position with hands slightly wider than shoulders.",
-                        "Lower your body until your chest almost touches the floor, keeping your elbows at 45 degrees.",
-                        "Keep your torso rigid and core locked; do not let your hips sag.",
-                        "Push back up to the starting position with explosive force."
+                        "For Home: Set up in a plank position and lower chest to the floor.",
+                        "For Gym: Lie on a bench and press dumbbells upward synchronously.",
+                        "Maintain a rigid spine throughout the movement."
                     ),
                     muscleGroup = "Chest & Core",
-                    tips = "Inhale on the way down; exhale as you push up."
+                    tips = "Don't let your hips sag; keep core braced."
                 ),
                 Exercise(
                     id = "pike_pushups",
-                    name = "Pike Pushups",
-                    description = "An excellent pushup variation that targets the anterior shoulders and core alignment.",
+                    name = "Pike Pushups / DB Shoulder Press",
+                    description = "Focus on shoulder hypertrophy. Perform pike pushups at home or dumbbell overhead press at the gym.",
                     defaultRepsOrTime = "12 reps",
                     durationSeconds = 45,
                     baseCalories = 18,
                     instructions = listOf(
-                        "Start in a standard pushup stance, then hike your hips high in the air to form an inverted-V.",
-                        "Keep legs and back straight with head aligned between arms.",
-                        "Lower the crown of your head slowly toward the floor by bending your elbows.",
-                        "Press powerfully back through the shoulders to return to the apex."
+                        "For Home: Walk feet towards hands in a V-shape, lower crown of head.",
+                        "For Gym: Sit on a bench and press dumbbells overhead.",
+                        "Lock out shoulders at the top position."
                     ),
                     muscleGroup = "Shoulders & Core",
-                    tips = "Keep your gaze on your toes to avoid neck strain."
-                ),
-                Exercise(
-                    id = "burpees",
-                    name = "Burpees",
-                    description = "A high-intensity calorie incinerator that engages all muscle groups.",
-                    defaultRepsOrTime = "10 reps",
-                    durationSeconds = 35,
-                    baseCalories = 25,
-                    instructions = listOf(
-                        "Stand tall, then drop into a squat and place your hands flat on the floor.",
-                        "Jump feet backward into a pushup-ready plank position.",
-                        "Jump feet forward back under your hips to return to the deep squat position.",
-                        "Explode upward in a high jump, clapping hands behind your head."
-                    ),
-                    muscleGroup = "Full Body",
-                    tips = "Find a steady tempo; do not rush the squat placement."
+                    tips = "Keep elbows tucked to protect rotator cuffs."
                 ),
                 Exercise(
                     id = "plank",
-                    name = "Plank Hold",
-                    description = "An isometric core exercise that targets deep transverse abdominals.",
+                    name = "Plank Hold (Home / Gym)",
+                    description = "Isometric core holds to secure the lower back and activate abdominals.",
                     defaultRepsOrTime = "60 seconds",
                     durationSeconds = 60,
                     baseCalories = 10,
                     instructions = listOf(
-                        "Rest forearms on the floor, elbows aligned directly beneath shoulders.",
-                        "Extend legs back fully, placing weight on elbows and toes.",
-                        "Maintain a strictly flat posture from head to heels.",
-                        "Squeeze glutes and abdominals tight while taking deep breaths."
+                        "Rest forearms flat on the floor or mat.",
+                        "Align elbows directly under shoulders.",
+                        "Squeeze glutes and draw navel in, holding a straight line."
                     ),
                     muscleGroup = "Full Core",
-                    tips = "Do not hold your breath. Keep looking down at your hands."
+                    tips = "Breathe steadily; don't hold your breath."
+                ),
+                Exercise(
+                    id = "russian_twists",
+                    name = "Russian Twists",
+                    description = "Targets obliques. Can be performed with a medicine ball/dumbbell at the gym or bodyweight at home.",
+                    defaultRepsOrTime = "25 reps",
+                    durationSeconds = 40,
+                    baseCalories = 12,
+                    instructions = listOf(
+                        "Sit with knees bent, feet slightly hovered off the floor.",
+                        "Lean back at 45 degrees, keeping back straight.",
+                        "Twist torso from side to side, touching the floor with hands or weight."
+                    ),
+                    muscleGroup = "Obliques",
+                    tips = "Follow your hands with your gaze to maximize twist."
                 )
             )
         ),
         WorkoutDay(
             id = "day_2",
             dayNumber = 2,
-            name = "Day 2: Cardio Burn",
+            name = "Day 2: Cardio, Jogging & Running (Outdoor / Gym)",
             type = "Cardio",
-            description = "High-octane bodyweight conditioning to elevate heart rate, improve endurance, and torch fat.",
+            description = "Build aerobic stamina and burn calories. Run or jog on a gym treadmill or outdoors in a park.",
             exercises = listOf(
                 Exercise(
-                    id = "jumping_jacks",
-                    name = "Jumping Jacks",
-                    description = "Full body kinetic drills to activate heart rate and mobilize limbs.",
-                    defaultRepsOrTime = "40 reps",
-                    durationSeconds = 30,
-                    baseCalories = 20,
+                    id = "jogging",
+                    name = "Jogging (Gym Treadmill / Outdoor)",
+                    description = "A moderate-pace jog to improve cardiovascular capacity and warm up joints.",
+                    defaultRepsOrTime = "10 minutes",
+                    durationSeconds = 600,
+                    baseCalories = 80,
                     instructions = listOf(
-                        "Stand with legs aligned together, arms straight down at your sides.",
-                        "Jump feet wide to the sides while swinging arms overhead until thumbs kiss.",
-                        "Jump back into the start stance, returning arms cleanly to sides."
+                        "Maintain a steady, comfortable running pace.",
+                        "Land on the midfoot and keep shoulders relaxed.",
+                        "Can be done on a gym treadmill or outdoors."
                     ),
-                    muscleGroup = "Cardio",
-                    tips = "Land softly on the balls of your feet."
+                    muscleGroup = "Cardio / Legs",
+                    tips = "Keep a conversational pace to build endurance."
+                ),
+                Exercise(
+                    id = "running",
+                    name = "Running (Gym Treadmill / Outdoor)",
+                    description = "Intense interval running session to burn fat and increase lung capacity.",
+                    defaultRepsOrTime = "15 minutes",
+                    durationSeconds = 900,
+                    baseCalories = 150,
+                    instructions = listOf(
+                        "Accelerate to a challenging run speed.",
+                        "Pump arms in sync with high strides.",
+                        "Ideal on a treadmill with incline or an outdoor flat track."
+                    ),
+                    muscleGroup = "Cardio / Calves",
+                    tips = "Keep core engaged and breathe deeply through your nose."
                 ),
                 Exercise(
                     id = "high_knees",
-                    name = "High Knees",
-                    description = "A rapid-jogging cardio workout that enhances agility and quadriceps explosive energy.",
+                    name = "High Knees (Stationary)",
+                    description = "Rapid high-knee running in place to spike the heart rate.",
                     defaultRepsOrTime = "45 seconds",
                     durationSeconds = 45,
                     baseCalories = 30,
                     instructions = listOf(
-                        "Jog in place, driving your knees upward as high as possible toward chest level.",
-                        "Keep your back upright and avoid leaning backward.",
-                        "Pump arms with rhythm to match your leg movement velocity."
-                    ),
-                    muscleGroup = "Cardio / Legs",
-                    tips = "Try to tap your hands with your knees in each stride."
-                ),
-                Exercise(
-                    id = "mountain_climbers",
-                    name = "Mountain Climbers",
-                    description = "A dynamic upper body hold combined with core and running-leg cadence.",
-                    defaultRepsOrTime = "45 seconds",
-                    durationSeconds = 45,
-                    baseCalories = 28,
-                    instructions = listOf(
-                        "Deconstruct into a high plank position, hands firmly beneath shoulders.",
-                        "Drive your right knee up to your chest, keeping hips level and low.",
-                        "Switch legs dynamically, extending the right back while running the left forward.",
-                        "Keep a swift, synchronized sprint-like motion."
-                    ),
-                    muscleGroup = "Cardio & Core",
-                    tips = "Avoid bouncing your hips in the air."
-                ),
-                Exercise(
-                    id = "sprints",
-                    name = "Stationary Sprints",
-                    description = "Max-effort explosive speed intervals that elevate metabolic burn.",
-                    defaultRepsOrTime = "30 seconds",
-                    durationSeconds = 30,
-                    baseCalories = 35,
-                    instructions = listOf(
-                        "Stand slightly leaned forward in a starting blocks position.",
-                        "Sprint in place at 100% effort, driving arms and pumping feet as fast as humanly possible.",
-                        "Stay on your toes and squeeze your breath."
+                        "Jog in place, driving knees up to hip height.",
+                        "Pump arms dynamically.",
+                        "Stay light on the balls of your feet."
                     ),
                     muscleGroup = "Cardio / Quads",
-                    tips = "Give absolute maximum effort for the entire duration."
+                    tips = "Engage your lower abs to lift knees higher."
+                ),
+                Exercise(
+                    id = "jumping_jacks",
+                    name = "Jumping Jacks (Home / Gym)",
+                    description = "Classic full-body kinetic conditioner.",
+                    defaultRepsOrTime = "40 reps",
+                    durationSeconds = 30,
+                    baseCalories = 20,
+                    instructions = listOf(
+                        "Start with feet together, arms at sides.",
+                        "Jump wide while swinging arms overhead.",
+                        "Return to starting stance smoothly."
+                    ),
+                    muscleGroup = "Cardio",
+                    tips = "Land softly to avoid knee impact."
                 )
             )
         ),
         WorkoutDay(
             id = "day_3",
             dayNumber = 3,
-            name = "Day 3: Lower Body Sculpt",
+            name = "Day 3: Lower Body Sculpt (Home / Gym)",
             type = "Lower Body",
-            description = "Sculpt and fortify your lower body kinetic chain using highly functional movements.",
+            description = "Reinforce the lower chain. Perform bodyweight movements at home or add dumbbells at the gym.",
             exercises = listOf(
                 Exercise(
                     id = "squats",
-                    name = "Bodyweight Squats",
-                    description = "The foundational lower body lift for reinforcing quads, hamstrings, and gluteal muscles.",
+                    name = "DB Goblet Squats / BW Squats",
+                    description = "Foundational lower lift. Hold a dumbbell at the chest in the gym, or perform bodyweight squats at home.",
                     defaultRepsOrTime = "20 reps",
                     durationSeconds = 45,
                     baseCalories = 15,
                     instructions = listOf(
-                        "Stand with feet shoulder-width apart, toes pointed slightly outward.",
-                        "Hinge at the hips and bend knees, acting as if sitting on an imaginary stool.",
-                        "Lower until thighs are parallel to the floor, chest high and knees behind toes.",
-                        "Drive down through the heels to rise back tall."
+                        "Stand with feet shoulder-width apart.",
+                        "Hinge at the hips and sit back, keeping chest high.",
+                        "Lower until thighs are parallel to the floor, then drive through heels."
                     ),
                     muscleGroup = "Quads & Glutes",
-                    tips = "Keep your core engaged to brace your lower back."
+                    tips = "Keep knees tracking in line with toes."
                 ),
                 Exercise(
                     id = "lunges",
-                    name = "Forward Lunges",
-                    description = "Unilateral strength workout that fixes muscular imbalances and improves leg stability.",
+                    name = "Lunges (Dumbbell / Bodyweight)",
+                    description = "Unilateral lower body alignment. Hold dumbbells at sides in gym or step bodyweight at home.",
                     defaultRepsOrTime = "16 reps",
                     durationSeconds = 45,
                     baseCalories = 18,
                     instructions = listOf(
-                        "Stand with feet parallel, hands on hips or at chest.",
-                        "Take a large step forward with your right leg.",
-                        "Lower till both knees make 90-degree angles, back knee hovering just off the surface.",
-                        "Push back through the front heel to starting stance and switch feet."
+                        "Take a large step forward, dropping hips vertically.",
+                        "Both knees should bend at 90 degrees.",
+                        "Push off front foot to return to standing."
                     ),
                     muscleGroup = "Hamstrings & Quads",
-                    tips = "Keep your chest tall; do not let your torso tilt forward."
+                    tips = "Do not let front knee pass your toes."
                 ),
                 Exercise(
                     id = "glute_bridges",
-                    name = "Glute Bridges",
-                    description = "A powerful posterior-chain glute activator that takes pressure off the lower back.",
+                    name = "Glute Bridges (Home / Gym)",
+                    description = "Posterior-chain glute activator. Can be loaded with a barbell/dumbbell at the gym.",
                     defaultRepsOrTime = "15 reps",
                     durationSeconds = 40,
                     baseCalories = 12,
                     instructions = listOf(
-                        "Lie on your back, knees bent, feet flat on the floor hip-width apart.",
-                        "Squeeze glutes and drive heels down to raise hips until torso creates a straight ramp.",
-                        "Pause and clamp the glutes for 1-2 seconds at the peak.",
-                        "Lower back down slowly."
+                        "Lie on back with knees bent and feet flat on the floor.",
+                        "Squeeze glutes and raise hips toward the ceiling.",
+                        "Hold at the top for 2 seconds before lowering."
                     ),
-                    muscleGroup = "Glutes & Lower Back",
-                    tips = "Avoid over-extending your back; drive from the glutes."
+                    muscleGroup = "Glutes & Hamstrings",
+                    tips = "Drive through heels, not your toes."
                 ),
                 Exercise(
-                    id = "wall_sit",
-                    name = "Wall Sit Hold",
-                    description = "An isometric leg burner that tests endurance in the quadriceps under constant load.",
-                    defaultRepsOrTime = "45 seconds",
-                    durationSeconds = 45,
-                    baseCalories = 14,
+                    id = "calf_raises",
+                    name = "Calf Raises (Weighted / BW)",
+                    description = "Sculpt and strengthen calf muscles. Use a step platform at the gym or flat ground at home.",
+                    defaultRepsOrTime = "30 reps",
+                    durationSeconds = 30,
+                    baseCalories = 10,
                     instructions = listOf(
-                        "Lean your back completely flat against a wall.",
-                        "Slide down until thighs are parallel to the floor, simulating sitting on a leg chair.",
-                        "Keep ankles directly under your knees.",
-                        "Extend arms out or keep hands on the chest, holding tight."
+                        "Stand straight, feet hip-width apart.",
+                        "Rise onto the balls of your feet, squeezing calves at the peak.",
+                        "Lower back down slowly with control."
                     ),
-                    muscleGroup = "Quadriceps",
-                    tips = "Do not rest hands on your knees."
+                    muscleGroup = "Calves",
+                    tips = "Perform slowly to maximize muscle tension."
                 )
             )
         ),
         WorkoutDay(
             id = "day_4",
             dayNumber = 4,
-            name = "Day 4: Full Body Power",
+            name = "Day 4: Full Body Power & Speed (Home / Gym)",
             type = "Full Body",
-            description = "A multi-joint metabolic circuit combining strength and dynamic stamina triggers.",
+            description = "A intense combination of cardiorespiratory speed drills and total body muscle activation.",
             exercises = listOf(
                 Exercise(
-                    id = "jumping_jacks_full",
-                    name = "Jumping Jacks",
-                    description = "Mobilizes upper and lower limbs to prime muscular units for work.",
-                    defaultRepsOrTime = "25 reps",
-                    durationSeconds = 30,
-                    baseCalories = 15,
+                    id = "burpees",
+                    name = "Burpees / KB Swings",
+                    description = "Power movements. Do bodyweight burpees at home or kettlebell swings at the gym.",
+                    defaultRepsOrTime = "10 reps",
+                    durationSeconds = 35,
+                    baseCalories = 25,
                     instructions = listOf(
-                        "Perform clean, rhythmic jumping jacks with broad range.",
-                        "Engage core as feet expand outward."
+                        "For Home: Drop to a pushup, jump feet in, and leap up.",
+                        "For Gym: Hinge at hips and swing kettlebell to shoulder height.",
+                        "Engage core and glutes to drive the power."
                     ),
-                    muscleGroup = "Cardio",
-                    tips = "Control the speed and breathe evenly."
+                    muscleGroup = "Full Body Power",
+                    tips = "Maintain standard spinal alignment."
                 ),
                 Exercise(
-                    id = "pushups_full",
-                    name = "Classic Pushups",
-                    description = "Pumping blood to pectoral, deltoid, and abdominal regions.",
-                    defaultRepsOrTime = "12 reps",
-                    durationSeconds = 30,
-                    baseCalories = 16,
-                    instructions = listOf(
-                        "Form a rigid body line in high plank.",
-                        "Drop deep, then fire up immediately to build shoulder chest force."
-                    ),
-                    muscleGroup = "Chest & Shoulders",
-                    tips = "Ensure your shoulder blades contract on lower and expand on rise."
-                ),
-                Exercise(
-                    id = "walking_lunges",
-                    name = "Walking Lunges",
-                    description = "A dynamic lunge iteration to trigger kinetic flow.",
-                    defaultRepsOrTime = "12 reps",
+                    id = "mountain_climbers",
+                    name = "Mountain Climbers",
+                    description = "Rapid core stabilizer and cardio builder.",
+                    defaultRepsOrTime = "45 seconds",
                     durationSeconds = 45,
-                    baseCalories = 20,
+                    baseCalories = 28,
                     instructions = listOf(
-                        "Lunge forward with your left foot, step forward with right foot, repeating in a structured walking stride."
+                        "Start in a high plank position.",
+                        "Alternate driving knees to chest in a rapid running motion.",
+                        "Keep hips low and aligned."
                     ),
-                    muscleGroup = "Lower Body",
-                    tips = "Maintain straight posture throughout the step-over."
+                    muscleGroup = "Cardio & Core",
+                    tips = "Do not bounce your hips; keep them stable."
                 ),
                 Exercise(
-                    id = "plank_full",
-                    name = "Plank Finisher",
-                    description = "Deep isometric abdominal recruitment to conclude the full-body block.",
+                    id = "finish_run",
+                    name = "Running (Gym Treadmill / Outdoor)",
+                    description = "Finisher running session to exhaust energy stores and build endurance.",
+                    defaultRepsOrTime = "10 minutes",
+                    durationSeconds = 600,
+                    baseCalories = 100,
+                    instructions = listOf(
+                        "Transition into a focused, steady outdoor run or treadmill sprint.",
+                        "Focus on regular breathing cycles.",
+                        "Push through muscular fatigue safely."
+                    ),
+                    muscleGroup = "Cardio & Endurance",
+                    tips = "Finish strong; cool down with a slow walk."
+                ),
+                Exercise(
+                    id = "plank_finisher",
+                    name = "Plank Finisher (Home / Gym)",
+                    description = "Final isometric hold to burn out core muscles.",
                     defaultRepsOrTime = "45 seconds",
                     durationSeconds = 45,
                     baseCalories = 12,
                     instructions = listOf(
-                        "Hold high or elbow plank, breathing deeply through muscles while staying perfectly motionless."
+                        "Maintain standard plank position.",
+                        "Squeeze all core muscles for the remaining seconds.",
+                        "Relax shoulders."
                     ),
                     muscleGroup = "Core Integrity",
-                    tips = "Clamp glutes and lower abdomen."
+                    tips = "Visualize solid posture to keep holding."
                 )
             )
         )
     )
 
     val defaultMeals = listOf(
-        // Lose Weight
-        PredefinedMeal("Breakfast", "Fresh Avocado Toast with 2 Poached Eggs", 350, 18, "Lose Weight"),
-        PredefinedMeal("Lunch", "Grilled Lemon Herb Chicken Bowl with Lettuce & Quinoa", 450, 42, "Lose Weight"),
-        PredefinedMeal("Snack", "Greek Yogurt (Non-Fat) with Berries & Honey", 180, 15, "Lose Weight"),
-        PredefinedMeal("Dinner", "Baked Ginger Salmon over Steamed Asparagus", 380, 35, "Lose Weight"),
+        // Lose Weight (South Indian, Egg Prioritized)
+        PredefinedMeal("Breakfast", "Boiled Egg Podi Idli (2 Idlis) & 2 Boiled Eggs", 320, 18, "Lose Weight"),
+        PredefinedMeal("Lunch", "Millet Rice with Rasam, Egg Thokku (2 Eggs) & Cabbage Poriyal", 420, 22, "Lose Weight"),
+        PredefinedMeal("Snack", "Boiled Chickpea Sundal & 2 Egg Whites", 160, 14, "Lose Weight"),
+        PredefinedMeal("Dinner", "Ragi Dosa (2) with Coconut Chutney & Egg Bhurji (2 Eggs)", 350, 18, "Lose Weight"),
 
-        // Build Muscle
-        PredefinedMeal("Breakfast", "Nut Butter & Banana Power Oatmeal with Whey Scoop", 550, 35, "Build Muscle"),
-        PredefinedMeal("Lunch", "Double Chicken Fajita Rice Bowl with Black Beans & Cheese", 750, 55, "Build Muscle"),
-        PredefinedMeal("Snack", "Mixed Nut Medley (Almonds, Walnuts) & Protein Shake", 420, 30, "Build Muscle"),
-        PredefinedMeal("Dinner", "Lean Top Sirloin Steak with Roasted Sweet Potatoes & Broccoli", 680, 50, "Build Muscle"),
+        // Build Muscle (South Indian, Egg Prioritized)
+        PredefinedMeal("Breakfast", "Egg Dosa (2 Dosas with 3 Eggs) & Coconut Chutney", 580, 32, "Build Muscle"),
+        PredefinedMeal("Lunch", "Thalassery Egg Biryani (with 3 Boiled Eggs) & Onion Raita", 720, 38, "Build Muscle"),
+        PredefinedMeal("Snack", "Spiced Egg Bhurji (3 Eggs) with 2 Chapatis", 450, 26, "Build Muscle"),
+        PredefinedMeal("Dinner", "Ragi Mudde (Ragi Ball) with Egg Kurma (3 Eggs) & Buttermilk", 620, 30, "Build Muscle"),
 
-        // Stay Fit
-        PredefinedMeal("Breakfast", "Sautéed Spinach & Mushroom Omelette (3 Eggs) with Rye", 420, 24, "Stay Fit"),
-        PredefinedMeal("Lunch", "Turkey Club Wrap with Whole Wheat Tortilla & Side Salad", 520, 35, "Stay Fit"),
-        PredefinedMeal("Snack", "Apple Slices with Almond Butter Bowl", 220, 6, "Stay Fit"),
-        PredefinedMeal("Dinner", "Mediterranean Garlic Shrimp Pasta with Feta & Olive Oil", 550, 38, "Stay Fit"),
+        // Stay Fit (South Indian, Egg Prioritized)
+        PredefinedMeal("Breakfast", "Vegetable Upma with 2 Boiled Eggs & Sambar", 380, 18, "Stay Fit"),
+        PredefinedMeal("Lunch", "Sona Masuri Rice with Rasam, Kovakkai Poriyal & Egg Omelette (2 Eggs)", 490, 20, "Stay Fit"),
+        PredefinedMeal("Snack", "Boiled Chickpea Sundal & 2 Boiled Eggs", 240, 16, "Stay Fit"),
+        PredefinedMeal("Dinner", "Whole Wheat Chapati (2) with Southern Egg Masala (2 Eggs)", 460, 22, "Stay Fit"),
 
-        // Endurance
-        PredefinedMeal("Breakfast", "Honey Sweetened Granola porridge with Mixed Seeds & Banana", 480, 14, "Build Endurance"),
-        PredefinedMeal("Lunch", "Teriyaki Tofu Stir-Fry with Brown Rice & Mixed Veggies", 580, 22, "Build Endurance"),
-        PredefinedMeal("Snack", "Oat-Honey Energy Bar & Orange", 250, 8, "Build Endurance"),
-        PredefinedMeal("Dinner", "Slow-Cooked Pulled Chicken Flatbread with Hummus & Roasted Tomatoes", 600, 45, "Build Endurance")
+        // Endurance (South Indian, Egg Prioritized)
+        PredefinedMeal("Breakfast", "Kerala Puttu with Kadala Curry & 2 Scrambled Eggs", 480, 22, "Build Endurance"),
+        PredefinedMeal("Lunch", "Brown Rice with Drumstick Sambar, Keerai Kootu & Egg Roast (2 Eggs)", 530, 24, "Build Endurance"),
+        PredefinedMeal("Snack", "Steamed Nendran Banana & 2 Boiled Eggs", 280, 14, "Build Endurance"),
+        PredefinedMeal("Dinner", "Idiyappam (3) with Egg Stew (2 Eggs) & Coconut Milk", 510, 22, "Build Endurance")
     )
 }

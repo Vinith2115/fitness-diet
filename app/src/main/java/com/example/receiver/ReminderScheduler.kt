@@ -14,47 +14,87 @@ import java.util.Calendar
 object ReminderScheduler {
     fun scheduleDailyReminder(context: Context, hour: Int, minute: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, WorkoutReminderReceiver::class.java).apply {
-            putExtra("title", "Workout Call 🏋️")
-            putExtra("message", "Time to stay moving! Let's crush today's routine and fuel up.")
-        }
 
-        val pendingIntent = PendingIntent.getBroadcast(
+        // 1. Morning Reminder (Request code 2002)
+        val morningIntent = Intent(context, WorkoutReminderReceiver::class.java).apply {
+            putExtra("title", "Morning Workout Alert! 🌅🏋️")
+            putExtra("message", "Good morning! Time to activate your body. Open the tracker to log today's routine.")
+        }
+        val morningPendingIntent = PendingIntent.getBroadcast(
             context,
             2002,
-            intent,
+            morningIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         )
-
-        val calendar = Calendar.getInstance().apply {
+        val morningCalendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             if (before(Calendar.getInstance())) {
-                add(Calendar.DATE, 1) // Set for tomorrow if time is already past
+                add(Calendar.DATE, 1)
             }
         }
-
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
+            morningCalendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
-            pendingIntent
+            morningPendingIntent
+        )
+
+        // 2. Evening Reminder (Request code 2003) - scheduled 12 hours later
+        val eveningHour = (hour + 12) % 24
+        val eveningIntent = Intent(context, WorkoutReminderReceiver::class.java).apply {
+            putExtra("title", "Evening Workout & Diet Check! 🌇🥗")
+            putExtra("message", "Time for your evening check-in. Log your dinner, target calories, and evening jog!")
+        }
+        val eveningPendingIntent = PendingIntent.getBroadcast(
+            context,
+            2003,
+            eveningIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+        val eveningCalendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, eveningHour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            if (before(Calendar.getInstance())) {
+                add(Calendar.DATE, 1)
+            }
+        }
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            eveningCalendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            eveningPendingIntent
         )
     }
 
     fun cancelReminder(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
         val intent = Intent(context, WorkoutReminderReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
+
+        // Cancel morning
+        val morningPendingIntent = PendingIntent.getBroadcast(
             context,
             2002,
             intent,
             PendingIntent.FLAG_NO_CREATE or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
         )
-        if (pendingIntent != null) {
-            alarmManager.cancel(pendingIntent)
-            pendingIntent.cancel()
+        if (morningPendingIntent != null) {
+            alarmManager.cancel(morningPendingIntent)
+            morningPendingIntent.cancel()
+        }
+
+        // Cancel evening
+        val eveningPendingIntent = PendingIntent.getBroadcast(
+            context,
+            2003,
+            intent,
+            PendingIntent.FLAG_NO_CREATE or if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+        if (eveningPendingIntent != null) {
+            alarmManager.cancel(eveningPendingIntent)
+            eveningPendingIntent.cancel()
         }
     }
 
