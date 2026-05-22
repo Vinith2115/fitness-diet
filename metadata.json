@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Fitness \u0026 Diet Planner",
+  "description": "An all-in-one minimalist fitness companion with tailored workout checklists, step-by-step training guides, custom timers, meal and calorie tracking, visual analytics, and scheduled workout reminder alarms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
