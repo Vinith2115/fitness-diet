@@ -6,9 +6,7 @@ A premium, modern Android application powered by Google's Gemini AI to deliver h
 
 ## 📱 Screenshots
 
-<div align="center">
-  <img src="screenshots/screenshot1.png" width="360" alt="Fitness & Diet Tracker Screen Preview"/>
-</div>
+
 
 ---
 
